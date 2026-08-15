@@ -1,0 +1,60 @@
+/* src/index.css أو src/App.css */
+
+/* Neumorphism Base Color - كما في السابق */
+:root {
+  --neumorphic-base: #e0e5ec;
+  --neumorphic-light: #ffffff;
+  --neumorphic-dark: #a3b1c6;
+  --glass-bg: rgba(255, 255, 255, 0.2); /* خلفية زجاجية شفافة */
+  --glass-border: rgba(255, 255, 255, 0.3); /* حدود زجاجية */
+  --font-arabic: 'Cairo', sans-serif; /* مثال لخط عربي، يجب استيراده أولاً */
+}
+
+/* Glassmorphism Card */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px); /* تأثير الزجاج الضبابي */
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 2.5rem;
+  border: 1px solid var(--glass-border); /* حدود شفافة */
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* ظل ناعم للـ Glassmorphism */
+.shadow-glassmorphic-soft {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.3);
+}
+
+/* زر Glassmorphism */
+.glass-button {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  color: #333;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.glass-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* محرر المقالات - لضمان خط عربي جيد وقابلية التعديل */
+.article-editor:focus {
+  border-color: #319795; /* لون الحدود عند التركيز */
+  box-shadow: inset 0 0 10px rgba(49, 151, 149, 0.1);
+}
+
+.article-editor p { margin-bottom: 0.75em; }
+.article-editor h1 { font-size: 2em; font-weight: bold; margin-bottom: 1em; }
+.article-editor h2 { font-size: 1.5em; font-weight: bold; margin-bottom: 0.8em; }
+.article-editor ul, .article-editor ol { margin-left: 2em; margin-bottom: 0.75em; list-style-type: disc; }
+.article-editor ol { list-style-type: decimal; }
+.article-editor a { color: #319795; text-decoration: underline; }
+.article-editor img { max-width: 100%; height: auto; display: block; margin: 1em auto; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }

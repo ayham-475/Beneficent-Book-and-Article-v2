@@ -1,0 +1,30 @@
+/* Glassmorphism Card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.2) !important; /* إضافة important هنا */
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 2.5rem;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 10;
+}
+
+/* الكلاس الخاص بـ Neumorphism لضمان ظهوره */
+.neumorphic-card {
+  background: #e0e5ec !important;
+  box-shadow: 20px 20px 60px #becad9, -20px -20px 60px #ffffff !important;
+  border-radius: 2.5rem;
+  border: none;
+}
+
+.neumorphic-input {
+  width: 100%;
+  padding: 1.25rem;
+  background: #e0e5ec !important;
+  border-radius: 1rem;
+  border: none;
+  box-shadow: inset 6px 6px 12px #b8c1cc, inset -6px -6px 12px #ffffff !important;
+  outline: none;
+  transition: all 0.3s ease;
+}

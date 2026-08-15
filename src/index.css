@@ -1,0 +1,11 @@
+@import "tailwindcss";
+/* إخفاء شريط التمرير لجميع المتصفحات */
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; /* متصفحات Chrome و Safari */
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none; /* متصفح Edge */
+    scrollbar-width: none; /* متصفح Firefox */
+  }
+}
