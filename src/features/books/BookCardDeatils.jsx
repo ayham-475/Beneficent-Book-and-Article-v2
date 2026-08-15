@@ -13,8 +13,8 @@ const BookDetails = () => {
 
   const [Books, SetBooks] = useState([])
   const [Profiles, SetProfiles] = useState([])
-  const urlContents = "http://127.0.0.1:8080/rest/Content-articles/";
-  const urlProfile = "http://127.0.0.1:8080/rest/Profile/";
+  const urlContents = `${import.meta.env.VITE_API_URL}/rest/Content-articles/`;
+  const urlProfile = `${import.meta.env.VITE_API_URL}/rest/Profile/`;
  
   // 
   useEffect(() => {
@@ -84,7 +84,7 @@ const BookDetails = () => {
   const platform_commission = Number((book.price * 0.2).toFixed(2)); // عمولة المنصة 20% كمثال
   const author_amount = Number((book.price - platform_commission).toFixed(2)); // الصافي للكاتب
 
-  const API_URL = "http://127.0.0.1:8080/rest/Purchases/";
+  const API_URL = `${import.meta.env.VITE_API_URL}/rest/Purchases/`;
 
   // دمج عملية الإرسال وتمرير البيانات مباشرة
   const handleRegisterPurchase = async (pData) => {

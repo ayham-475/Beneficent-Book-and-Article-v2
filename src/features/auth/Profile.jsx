@@ -24,7 +24,7 @@ function ProfileEditor() {
     setProfileData(prev => ({ ...prev, [field]: value }));
   };
 
-  const UrlProfile = "http://127.0.0.1:8080/rest/Profile/";
+  const UrlProfile = `${import.meta.env.VITE_API_URL}/rest/Profile/`;
 
   // دالة الإرسال وحفظ البيانات
   const handleSubmit = async (e) => {

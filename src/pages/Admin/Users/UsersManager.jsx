@@ -9,8 +9,8 @@ const UsersManager = () => {
   const [searchTerm, setSearchTerm] = useState(""); // حالة البحث الجديدة
   
   // const API_URL = "http://localhost:3000/users";
-  const User_URL = "http://127.0.0.1:8080/rest/Users/";
-  const API_URL_profile = "http://127.0.0.1:8080/rest/Profile/";
+  const User_URL = `${import.meta.env.VITE_API_URL}/rest/Users/`;
+  const API_URL_profile = `${import.meta.env.VITE_API_URL}/rest/Profile/`;
 
   const GetUsers = async () => {
     try {

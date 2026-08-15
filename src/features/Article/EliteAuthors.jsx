@@ -5,9 +5,9 @@ const EliteAuthors = ({ contentType }) => {
   const [authors, setAuthors] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const UserUrl = "http://127.0.0.1:8080/rest/Users/";
-  const ProfileUrl = "http://127.0.0.1:8080/rest/Profile/";
-  const urlContents = "http://127.0.0.1:8080/rest/Content-articles/";
+  const UserUrl = `${import.meta.env.VITE_API_URL}/rest/Users/`;
+  const ProfileUrl = `${import.meta.env.VITE_API_URL}/rest/Profile/`;
+  const urlContents = `${import.meta.env.VITE_API_URL}/rest/Content-articles/`;
 
 
   // const UserUrl = "http://localhost:3000/users";

@@ -19,7 +19,7 @@ export default function UserVerificationDashboard() {
 console.log(" f  ",ProfileData)
   const UpdateUSer = async (newuser) => {
     try {
-      const Response = await fetch(`http://127.0.0.1:8080/rest/Users/${ProfileData.user_id}`, {
+      const Response = await fetch(`${import.meta.env.VITE_API_URL}/rest/Users/${ProfileData.user_id}`, {
         method: 'PUT', // اختيار طريقة التحديث الكلي
         headers: {
           'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ console.log(" f  ",ProfileData)
   }
   useEffect(() => {
     const GetUser = async () => {
-      const user = await fetch("http://127.0.0.1:8080/rest/Users");
+      const user = await fetch(`${import.meta.env.VITE_API_URL}/rest/Users`);
       const UserData = await user.json();
       const Finduser = UserData.find((user) => {
         return user.id == ProfileData.user_id;

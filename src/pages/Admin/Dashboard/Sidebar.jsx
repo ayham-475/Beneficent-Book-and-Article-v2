@@ -18,7 +18,7 @@ const Sidebar = () => {
   const [Showlogout, setShowLogout] = useState(false)
   const [profile,SetProfile]=useState([]);
   const [loading,setloading]=useState(false)
-    const API_URL = "http://127.0.0.1:8080/rest/Profile/";
+    const API_URL = `${import.meta.env.VITE_API_URL}/rest/Profile/`;
    const GetProfiles=async()=>{
     const profiles=await fetch(API_URL);
     const DataProfile= await profiles.json();

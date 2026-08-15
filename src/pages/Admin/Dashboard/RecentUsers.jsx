@@ -11,8 +11,8 @@ const RecentUsers = ({GetCountOrganizers}) => {
   const [dbUsers, setDbUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const API_URL = "http://127.0.0.1:8080/rest/Profile/";
-  const API_URL_profile = "http://127.0.0.1:8080/rest/Users/";
+  const API_URL = `${import.meta.env.VITE_API_URL}/rest/Profile/`;
+  const API_URL_profile = `${import.meta.env.VITE_API_URL}/rest/Users/`;
 
   // 2. دالة جلب البيانات من السيرفر
  const fetchUsers = async () => {

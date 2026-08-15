@@ -12,7 +12,7 @@ const CreativeHub = () => {
 
     const [Books,SetBooks]=useState([])
     const [Articles,SetArticle]=useState([])
- const API_URL = "http://127.0.0.1:8080/rest/Content-articles/";
+ const API_URL = `${import.meta.env.VITE_API_URL}/rest/Content-articles/`;
   const { user } = useContext(AuthContext);
 
     useEffect(()=>{

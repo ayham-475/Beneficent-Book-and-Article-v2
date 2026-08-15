@@ -100,8 +100,8 @@ function ArticleEditor() {
   };
 
   // عناوين الـ API
-  const API_URL = "http://127.0.0.1:8080/rest/Content-articles/";
-  const URL_ARTICLE_DETAILS = "http://127.0.0.1:8080/rest/ArticleDeatils/";
+  const API_URL = `${import.meta.env.VITE_API_URL}/rest/Content-articles/`;
+  const URL_ARTICLE_DETAILS = `${import.meta.env.VITE_API_URL}/rest/ArticleDeatils/`;
 
   // دالة حفظ تفاصيل المقال
   const addArticleDetails = async (createdContentId) => {

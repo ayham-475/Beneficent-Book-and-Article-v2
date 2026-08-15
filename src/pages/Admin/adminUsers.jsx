@@ -10,14 +10,14 @@ const Dashboard = () => {
   const [CountConent, SetCountContent] = useState(0);
   const [CountOrganizers,SetCountOrganizers]=useState(0)
   const  GetCountUser=async()=>{
-   const Users=await fetch("http://127.0.0.1:8080/rest/Users/");
+   const Users=await fetch(`${import.meta.env.VITE_API_URL}/rest/Users/`);
    const DataUser=await Users.json();
    SetCountUser(DataUser)
   
   }
 
   const GetCountContent=async()=>{
-   const content=await fetch("http://127.0.0.1:8080/rest/Content-articles/");
+   const content=await fetch(`${import.meta.env.VITE_API_URL}/rest/Content-articles/`);
    const DataContent=await content.json();
    SetCountContent(DataContent)
   }

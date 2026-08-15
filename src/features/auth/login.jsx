@@ -17,8 +17,8 @@ const AuthPage = () => {
   const [message, setMessage] = useState({ text: "", type: "" });
 
   // رابط السيرفر الموحد لـ Django
-  const BASE_URL = "http://127.0.0.1:8080/auth";
-  // const User_URL = "http://127.0.0.1:8080/rest/Users/";
+  const BASE_URL = `${import.meta.env.VITE_API_URL}/auth`;
+  // const User_URL = `${import.meta.env.VITE_API_URL}/rest/Users/`;
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   // 1. منطق تسجيل الدخول

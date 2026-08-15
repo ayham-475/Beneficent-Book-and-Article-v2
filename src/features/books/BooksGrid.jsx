@@ -11,7 +11,7 @@ const BooksSlider = () => {
   const allContent = Array.isArray(ContentData)
     ? ContentData
     : (ContentData?.contents || []);
-  const urlContents = "http://127.0.0.1:8080/rest/Content-articles/";
+  const urlContents = `${import.meta.env.VITE_API_URL}/rest/Content-articles/`;
 
   useEffect(() => {
     const ContentsData = async () => {

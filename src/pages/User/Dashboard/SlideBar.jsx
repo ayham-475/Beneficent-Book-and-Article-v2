@@ -20,7 +20,7 @@ const Sidebar = () => {
   const [profile, SetProfile] = useState([]);
 
   // const API_URL = "htt/p://localhost:3000/profiles";
-    const API_URL = "http://127.0.0.1:8080/rest/Profile/";
+    const API_URL = `${import.meta.env.VITE_API_URL}/rest/Profile/`;
 
   const GetProfiles = async () => {
     try {

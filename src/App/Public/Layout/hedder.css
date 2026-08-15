@@ -1,0 +1,6 @@
+.nav{
+align-items: center;
+border-radius: 10px;
+position: fixed;
+z-index: 10000;
+}

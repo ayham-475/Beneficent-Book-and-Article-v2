@@ -19,7 +19,7 @@ const AdminPendingReviews = () => {
       if (!authorId) return;
 
       try {
-        const userdata = await fetch("http://127.0.0.1:8080/rest/Users/");
+        const userdata = await fetch(`${import.meta.env.VITE_API_URL}/rest/Users/`);
         const users = await userdata.json();
 
         // البحث عن المستخدم باستخدام id الكاتب

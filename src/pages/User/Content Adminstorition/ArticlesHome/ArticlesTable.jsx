@@ -14,7 +14,7 @@ const SmartArticlesManager = ({SerchedArticles}) => {
   
   // const API_URL = "https://698292229c3efeb892a2ab23.mockapi.io/api/v1/contents"; 
   // const API_URL = "http://localhost:3000/co/ntents"; 
-    const API_URL = "http://127.0.0.1:8080/rest/Content-articles/";
+    const API_URL = `${import.meta.env.VITE_API_URL}/rest/Content-articles/`;
 
   useEffect(() => {
     const fetchArticles = async () => {

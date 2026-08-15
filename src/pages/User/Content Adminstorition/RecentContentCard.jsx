@@ -9,7 +9,7 @@ const RecentContentCard = () => {
   const { user } = useContext(AuthContext);
   const [Contents, Setcontents] = useState([])
   const [LastTime, SetLastTime] = useState([])
-  const API_URL = "http://127.0.0.1:8080/rest/Content-articles/";
+  const API_URL = `${import.meta.env.VITE_API_URL}/rest/Content-articles/`;
 
 
   useEffect(() => {

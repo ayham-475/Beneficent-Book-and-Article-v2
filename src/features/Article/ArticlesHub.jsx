@@ -9,7 +9,7 @@ import Footer from '../../App/Public/Layout/Fotter';
 import { article } from 'framer-motion/client';
 const Articles = () => {
   const [Articles,SetArticles]=useState([])
-    const urlContents = "http://127.0.0.1:8080/rest/Content-articles/";
+    const urlContents = `${import.meta.env.VITE_API_URL}/rest/Content-articles/`;
   useEffect(()=>{
 
 const GetContent=async()=>{

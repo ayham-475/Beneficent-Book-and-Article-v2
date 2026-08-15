@@ -6,7 +6,7 @@ export default function DecisionPanel({ ContentPreviewData }) {
     try {
 
       // الخطوة 2: الآن نرسل طلب التعديل (PATCH) على الرابط الذي يفهمه السيرفر 100%
-      const response = await fetch(`http://127.0.0.1:8080/rest/Content-articles/${ContentPreviewData.content_id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/rest/Content-articles/${ContentPreviewData.content_id}`, {
         method: "PUT",
         headers: {
           'Content-Type': 'application/json'

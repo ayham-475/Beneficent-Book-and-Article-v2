@@ -6,9 +6,9 @@ const RecentSales = () => {
   const { user } = useContext(AuthContext);
   
   // روابط الـ API
-  const Url = "http://127.0.0.1:8080/rest/Purchases/";
-  const UrlContent = "http://127.0.0.1:8080/rest/Content-articles/";
-  const UrlUsers = "http://127.0.0.1:8080/rest/Profile/"; // ✅ تم إضافة المتغير الغائب هنا لإصلاح الانهيار
+  const Url = `${import.meta.env.VITE_API_URL}/rest/Purchases/`;
+  const UrlContent = `${import.meta.env.VITE_API_URL}/rest/Content-articles/`;
+  const UrlUsers = `${import.meta.env.VITE_API_URL}/rest/Profile/`; // ✅ تم إضافة المتغير الغائب هنا لإصلاح الانهيار
 
   const [salesData, SetsalesData] = useState([]);
 

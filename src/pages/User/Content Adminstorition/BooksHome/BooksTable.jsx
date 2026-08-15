@@ -11,7 +11,7 @@ const BooksTable = ({BooKsSerched}) => {
   const [message, setMessage] = useState({ text: "", type: "" });
 
   // const API_URL = "http://localhost:3000/contents";
-    const urlContents = "http://127.0.0.1:8080/rest/Content-articles/";
+    const urlContents = `${import.meta.env.VITE_API_URL}/rest/Content-articles/`;
 
   // const API_URL = "https://698292229c3efeb892a2ab23.mockapi.io/api/v1/contents"; 
   const HandleDelete = async (id) => {
