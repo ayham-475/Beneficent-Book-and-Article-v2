@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect,useReducer } from 'react';
 import { 
   Edit3, Trash2, Eye, Calendar, Plus,
   MessageSquare, MoreVertical, Share2
@@ -6,12 +6,13 @@ import {
 import { AuthContext } from '../../../../features/auth/auther';
 import ArticleEditor from './ArticleEditor';
 import { Link } from 'react-router-dom';
+import { ArticlesReducer } from '../../../../App/Public/UseRedusers/AticlesReducer.JSX';
 const SmartArticlesManager = ({SerchedArticles}) => {
   const { user } = useContext(AuthContext);
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [n,setn]=useState(1)
-  
+    const [dataArticle,dispatch]=useReducer(ArticlesReducer,{})
   // const API_URL = "https://698292229c3efeb892a2ab23.mockapi.io/api/v1/contents"; 
   // const API_URL = "http://localhost:3000/co/ntents"; 
     const API_URL = `${import.meta.env.VITE_API_URL}/rest/Content-articles/`;
@@ -44,30 +45,11 @@ const SmartArticlesManager = ({SerchedArticles}) => {
     if (user?.id) fetchArticles();
   }, [user?.id]);
 
- const handlDelete = async (id) => {
-   alert(id)
-    const confirmDelete = window.confirm("هل أنت تأكد من حذف هذه المقالة ؟");
-    if (!confirmDelete) return; // ✅ الإلغاء إذا لم يوافق المستخدم
-
-    try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`${API_URL}${id}`, { // ✅ إضافة الـ ID إلى الرابط
-        method: "DELETE",
-        headers: {
-          "Authorization": `Token ${token}`
-        }
-      });
-
-      if (res.ok) {
-        // تحديث الواجهة وحذف المقال من الـ State
-        setArticles(prev => prev.filter(item => (item.content_id || item.id) !== id));
-      } else {
-        alert("فشل حذف المقالة من السيرفر.");
-      }
-    } catch (error) {
-      alert("حدث خطأ في الاتصال: " + error.message);
-    }
-  };
+ function handldeleteArticle(id){
+     
+  dispatch({type:"DELETE",payload:id})
+  }
+ 
   if (loading) return <div className="p-10 text-center font-black text-gray-400 animate-pulse">جاري تحميل مقالاتك الإبداعية...</div>;
   function handlupdateArticle(art){
      
@@ -128,7 +110,7 @@ const SmartArticlesManager = ({SerchedArticles}) => {
                       <div className="flex gap-2 justify-end">
                      <Link to="/ArticleEditor"  state={{articledata:art}} > 
                       <button  className="p-2.5 bg-white rounded-xl shadow-sm text-gray-400 hover:text-[#319795] hover:shadow-md transition-all"><Edit3 size={18}/></button> </Link> 
-                        <button className="p-2.5 bg-white rounded-xl shadow-sm text-gray-400 hover:text-rose-500 hover:shadow-md transition-all"  onClick={()=>handlDelete(art.content_id)}><Trash2 size={18}/></button>
+                        <button className="p-2.5 bg-white rounded-xl shadow-sm text-gray-400 hover:text-rose-500 hover:shadow-md transition-all"  onClick={()=>handldeleteArticle(art.content_id)}><Trash2 size={18}/></button>
                       </div>
                     </td>
                   </tr>
@@ -149,7 +131,7 @@ const SmartArticlesManager = ({SerchedArticles}) => {
                   </span>
                   <div className="flex gap-3 text-gray-400">
                     <button  onClick={()=>{handlupdateArticle(art)}}   className="p-1 hover:text-[#319795]"><Edit3 size={16} /></button>
-                    <button className="p-1 hover:text-rose-500"><Trash2 size={16} /></button>
+                    <button className="p-1 hover:text-rose-500"><Trash2 size={16} />j</button>
                   </div>
                 </div>
 

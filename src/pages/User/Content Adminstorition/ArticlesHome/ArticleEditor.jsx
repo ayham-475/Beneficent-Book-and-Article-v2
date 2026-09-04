@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext, useEffect } from 'react';
+import React, { useState, useRef, useContext, useEffect, useReducer } from 'react';
 import {
   ArrowLeft, Edit3,
   Maximize2, Minimize2,
@@ -6,20 +6,29 @@ import {
 } from 'lucide-react';
 import { AuthContext } from '../../../../features/auth/auther';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
+import { ArticlesReducer } from '../../../../App/Public/UseRedusers/AticlesReducer.JSX';
 import { ToastContext } from '../../../../App/Public/Contexts/ToastContext';
-
+import { useSelector, useDispatch } from 'react-redux'
+import add from '../../../../features/Slices/ArticleSlices'
 function ArticleEditor() {
+  const dispatchs =useDispatch();
+
+  const Result=useSelector((state)=>{
+    console.log("the state from the app component is ",state)
+    return state.ArticleSlices.result;
+  })
+  
+  function handleAddClick(){
+    console.log("dispatching the add action from app")
+    dispatchs(add);
+  }
+   
   const { user } = useContext(AuthContext);
-  const location = useLocation();
-  const navigate = useNavigate();
   const { showHideToast } = useContext(ToastContext);
-  const dataArticle = location.state?.articledata;
-
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [dataArticle,dispatch]=useReducer(ArticlesReducer,{})
   const editorRef = useRef(null);
-
-  // 1. بيانات المقال الأساسية (تصحيح الـ Syntax)
-  const [articleData, setArticleData] = useState({
+  const [articleData,setArticleData ]=useState({
     user: user?.id || null,
     title: '',
     description: '',
@@ -30,39 +39,8 @@ function ArticleEditor() {
     language: 'ar',
     img_path: '',
     status: 'DRAFT'
-  });
-
-  // 2. بيانات محتوى المقال التفصيلي
-  const [articleDetails, setArticleDetails] = useState({
-    body_html: '',
-    pages_count: 1
-  });
-
-  // جلب البيانات وتعبئتها عند التعديل (تصحيح الـ Syntax)
-  useEffect(() => {
-    if (dataArticle) {
-      setArticleData({
-        user: user?.id || null,
-        title: dataArticle.title || '',
-        description: dataArticle.description || dataArticle.text_content || '',
-        category_id: dataArticle.category_id || 'مقالة تكنلوجيا',
-        content_type: dataArticle.content_type || 'ARTICLE',
-        price: dataArticle.price || 0,
-        text_content: dataArticle.text_content || '',
-        language: dataArticle.language || 'ar',
-        img_path: dataArticle.img_path || '',
-        status: dataArticle.status || 'DRAFT'
-      });
-
-      const initialHtml = dataArticle.body_html || dataArticle.text_content || '';
-      setArticleDetails(prev => ({ ...prev, body_html: initialHtml }));
-
-      if (editorRef.current) {
-        editorRef.current.innerHTML = initialHtml;
-      }
-    }
-  }, [dataArticle, user]);
-
+  })
+  
   // أنماط التصميم (Neumorphic & Glassmorphism)
   const glassStyle = {
     background: "rgba(255, 255, 255, 0.25)",
@@ -99,95 +77,12 @@ function ArticleEditor() {
     }
   };
 
-  // عناوين الـ API
-  const API_URL = `${import.meta.env.VITE_API_URL}/rest/Content-articles/`;
-  const URL_ARTICLE_DETAILS = `${import.meta.env.VITE_API_URL}/rest/ArticleDeatils/`;
-
-  // دالة حفظ تفاصيل المقال
-  const addArticleDetails = async (createdContentId) => {
-    try {
-      const payload = {
-        content_id: createdContentId,
-        body_html: articleDetails.body_html,
-        pages_count: articleDetails.pages_count
-      };
-      
-      const token = localStorage.getItem("token");
-      const res = await fetch(URL_ARTICLE_DETAILS, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Authorization": `Token ${token}` },
-        body: JSON.stringify(payload)
-      });
-
-      if (!res.ok) {
-        console.error("لم يتم حفظ تفاصيل المحتوى بشكل كامل.");
-      }
-    } catch (error) {
-      console.error("خطأ أثناء الاتصال بـ API تفاصيل المقال:", error);
-    }
-  };
-
-  // دالة الحفظ الرئيسية (إصلاح الـ payload)
-  const saveArticle = async (targetStatus) => {
-    const isEditing = Boolean(dataArticle?.content_id || dataArticle?.id);
-    const method = isEditing ? "PUT" : "POST";
-    const targetId = dataArticle?.content_id || dataArticle?.id;
-    const url = isEditing ? `${API_URL}${targetId}/` : API_URL;
-
-    // ✅ تجهيز الـ payload بشكل سليم مع إضافة الـ user والمحتوى النصي
-    const payload = {
-      user: user?.id, // 👈 تم التثبيت هنا لمنع خطأ null value in column user_id
-      title: articleData.title,
-      description: articleData.description,
-      category_id: articleData.category_id,
-      content_type: articleData.content_type || 'ARTICLE',
-      price: articleData.price || 0,
-      img_path: articleData.img_path || '',
-      language: articleData.language || 'ar',
-      status: targetStatus,
-      text_content: articleDetails.body_html || articleData.description
-    };
-
-    try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(url, {
-        method: method,
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Token ${token}`
-        },
-        body: JSON.stringify(payload)
-      });
-
-      if (res.ok) {
-        const resData = await res.json();
-        const savedContentId = resData.id || targetId;
-
-        if (savedContentId) {
-          await addArticleDetails(savedContentId);
-        }
-
-        const successMessage = isEditing ? "تم تعديل المقال بنجاح ✨" : "تم نشر المقال بنجاح ✨";
-        showHideToast(successMessage);
-
-        setTimeout(() => navigate('/ArticlesManager'), 1200);
-      } else {
-        const errorData = await res.json();
-        // 💡 يطبع تفاصيل أخطاء الـ Serializer بدقة لمعرفتها فوراً
-        console.error("تفاصيل خطأ السيرفر:", errorData);
-        alert(JSON.stringify(errorData) || "حدث خطأ أثناء حفظ المقال.");
-      }
-    } catch (error) {
-      console.error("خطأ الاتصال بالسيرفر:", error);
-      alert("تعذر الاتصال بالسيرفر. يرجى التحقق من الخادم.");
-    }
-    // console.log("articleDetails  :",articleDetails)
-  };
-
+  function SaveArticle(){
+    dispatch({type:"added",payload:articleData})
+  }
   return (
     <div className={`min-h-screen bg-[#E0E5EC] pb-20 font-sans text-gray-800 ${isFullscreen ? 'fixed inset-0 z-[999] overflow-y-auto' : ''}`}>
       <div className={`max-w-6xl mx-auto pt-16 px-4 ${isFullscreen ? 'w-full' : ''}`} dir="rtl">
-
         {/* رأس الصفحة */}
         <div style={glassStyle} className="p-8 md:p-10 mb-12 flex flex-col md:flex-row items-start md:items-center justify-between">
           <div>
@@ -316,14 +211,14 @@ function ArticleEditor() {
             <div className="flex gap-4 w-full md:w-auto">
               <button
                 type="button"
-                onClick={() => saveArticle('DRAFT')}
+              
                 className="flex-1 md:flex-none px-10 py-4 bg-gray-400 text-white rounded-2xl font-black shadow-lg hover:bg-gray-500 transition-all active:scale-95"
               >
                 حفظ مسودة
               </button>
               <button
                 type="button"
-                onClick={() => saveArticle('DRAFT')}
+                onClick={() => handleAddClick()}
                 className="flex-1 md:flex-none px-10 py-4 bg-[#319795] text-white rounded-2xl font-black shadow-xl shadow-[#319795]/30 hover:bg-[#2a8381] transition-all active:scale-95"
               >
                 {dataArticle ? "تحديث الآن" : "نشر المقال"}

@@ -4,10 +4,15 @@ import './index.css'
 import App from './App.jsx'
 import './App.css'; // تأكد من المسار الصحيح
 import { BrowserRouter } from 'react-router-dom' // استدعاء الموزع
+import {store} from "./App/Public/store/store.jsx"
+import {Provider} from "react-redux"
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+ 
+ <StrictMode>
+ <Provider store={store}>
    <BrowserRouter>
       <App />
     </BrowserRouter>
+    </Provider>
   </StrictMode>,
 )

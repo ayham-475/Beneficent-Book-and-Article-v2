@@ -8,12 +8,12 @@ import Home from './Books/Home'
 function HomeAll() {
   return (
     <div>
-      <Hedder />
+      {/* <Hedder />
       <Home />
       <CosmicHero />
       <ContentGridSection />
       <SocialAndTabletSection />
-      <Fotter />
+      <Fotter /> */}
 
     </div>
   )

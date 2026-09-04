@@ -4,39 +4,22 @@ import { Edit3, Trash2, Eye, Star, BookOpen } from 'lucide-react';
 import { AuthContext } from '../../../../features/auth/auther';
 import { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import {useBooksActions} from '../../../../App/Public/UseRedusers/BooksReducer'
 const BooksTable = ({BooKsSerched}) => {
   const { user } = useContext(AuthContext);
   const [Books, SetBook] = useState([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState({ text: "", type: "" });
+  const { executeAction, isLoading } = useBooksActions();
 
   // const API_URL = "http://localhost:3000/contents";
     const urlContents = `${import.meta.env.VITE_API_URL}/rest/Content-articles/`;
 
   // const API_URL = "https://698292229c3efeb892a2ab23.mockapi.io/api/v1/contents"; 
-  const HandleDelete = async (id) => {
-
-    const confirmDelete = window.confirm(id + "هل أنت متأكد من حذف هذا الكتاب ؟");
-    if (!confirmDelete)
-      return;
-    try {
-      const contentData = await fetch(`${urlContents}${id}`, {
-        method: "DELETE",
-      });
-      if (contentData.ok) {
-        SetBook(Books.filter(item => item.content_id != id))
-        setMessage({
-          text: dataArticle ? "تم حذف الكتاب بنجاح!" : "تم إنشاء الكتاب بنجاح!",
-          
-          type: "success"
-        });
-      }
-    }catch (error) {
-      // setMessage({ text: "حدث خطأ أثناء الاتصال بالسيرفر.", type: "error" });
-    }
-  }
-
-
+  function HandleDelete (id) {
+    // alert("")
+executeAction({ type: "DELETE", payload: id});
+}
   if(!BooKsSerched)return <div className="p-10 text-center font-black text-gray-400 animate-pulse">جاري تحميل مقالاتك الإبداعية...</div>;
 
   return (

@@ -1,18 +1,24 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react'; // قمنا بإزالة useReducer
 import {
   ArrowRight, Tag, DollarSign, FileText, Image, Globe, FileDown
 } from 'lucide-react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { AuthContext } from '../../../features/auth/auther';
 import { ToastContext } from '../../../App/Public/Contexts/ToastContext';
 
+// الاستدعاء الصحيح للملف المنفصل
+import {useBooksActions} from  '../../../App/Public/UseRedusers/BooksReducer' 
+
 function AddDataContent() {
   const location = useLocation();
-  const navigate = useNavigate();
   const bookdata = location.state?.BookData; // البيانات القادمة من صفحة الإدارة عند التعديل
+  
   const { user } = useContext(AuthContext);
   const { showHideToast } = useContext(ToastContext);
+
+  // هنا نستدعي دالة التنفيذ وحالة التحميل من ملفنا المنفصل (بدلاً من useReducer)
+  const { executeAction, isLoading } = useBooksActions();
 
   // 1. تعريف الكيان الأول (المحتوى الأساسي)
   const [ContentData, SetContentData] = useState({
@@ -63,65 +69,20 @@ function AddDataContent() {
     }
   }, [bookdata, user]);
 
-  // روابط الـ API
-  const urlContents = `${import.meta.env.VITE_API_URL}/rest/Content-articles/`;
+  // دالة الإرسال المعدلة
+  const Add_Book = async (e) => {
+    e.preventDefault(); // مهم جداً لمنع تحديث الصفحة
 
-  // دالة المعالجة وحفظ البيانات
-  const handlAddContent = async (e) => {
-    if (e) e.preventDefault();
-
-    // استخدام content_id أو id الموجود في الكيان
-    const targetId = bookdata?.content_id || bookdata?.id;
-    const isEdit = Boolean(targetId);
-    const method = isEdit ? "PUT" : "POST";
-    const requestUrl = isEdit ? `${urlContents}${targetId}/` : urlContents;
-
-    // تجهيز الـ payload بدقة لتناسب الـ Model
-    const payload = {
-      user: user?.id || ContentData.user, // رقم ID المستخدم
-      category_id: ContentData.category_id || "عملي", // CharField يقبل نص
-      title: ContentData.title,
-      description: ContentData.description || "",
-      content_type: ContentData.content_type || "BOOK", // يطابق ContentType.BOOK
-      price: parseFloat(ContentData.price) || 0.00,
-      text_content: ContentData.text_content || "",
-      img_path: ContentData.img_path || "https://via.placeholder.com/600x400",
-      language: ContentData.language || "ar",
-
-      // إرسال إما 'DRAFT' أو 'PUBLISHED' حصراً
-      status: (ContentData.status === 'PUBLISHED') ? 'PUBLISHED' : 'DRAFT',
-    };
-
-    try {
-      const token = localStorage.getItem("token");
-
-      const resContent = await fetch(requestUrl, {
-        method: method,
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": token ? `Token ${token}` : ""
-        },
-        body: JSON.stringify(payload)
-      });
-
-      if (!resContent.ok) {
-        const errorData = await resContent.json();
-        console.error("تفاصيل خطأ Django:", errorData);
-        alert("خطأ من السيرفر: " + JSON.stringify(errorData));
-        return;
-      }
-
-      const responseData = await resContent.json();
-      console.log("تم الحفظ بنجاح:", responseData);
-
-      showHideToast(isEdit ? "تم تحديث البيانات بنجاح" : "تم حفظ البيانات بنجاح");
-      setTimeout(() => navigate('/BookContentHome'), 1500);
-
-    } catch (error) {
-      console.error("خطأ شبكة/سيرفر:", error);
-      alert("تعذر الاتصال بالسيرفر");
+    // إذا كان هناك بيانات قادمة (bookdata)، إذن العملية هي "تعديل"
+    if (bookdata && bookdata.id) {
+        await executeAction({ type: "PUT", payload: ContentData, id: bookdata.id });
+    } 
+    // إذا لم يكن هناك بيانات قادمة، العملية هي "إضافة جديدة"
+    else {
+        await executeAction({ type: "POST", payload: ContentData });
     }
   };
+
   return (
     <div className="min-h-screen mt-20 bg-[#F0F4F8] pb-20 font-sans">
       <div className="max-w-4xl mx-auto mt-12 px-4" dir="rtl">
@@ -135,7 +96,7 @@ function AddDataContent() {
           </div>
         </div>
 
-        <form onSubmit={handlAddContent} className="space-y-8">
+        <form onSubmit={Add_Book} className="space-y-8">
           {/* البطاقة الأولى: المعلومات الأساسية */}
           <div className="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-xl shadow-gray-200/50 border border-white relative overflow-hidden">
             <div className="absolute top-0 right-0 w-2 h-full bg-[#319795]"></div>
@@ -282,11 +243,15 @@ function AddDataContent() {
                 </button>
               </Link>
 
+              {/* استخدمنا isLoading لتعطيل الزر وتغيير النص أثناء الحفظ */}
               <button
                 type="submit"
-                className="bg-[#319795] text-white px-8 py-4 rounded-2xl font-bold hover:bg-[#2a8381] shadow-lg"
+                disabled={isLoading}
+                className={`text-white px-8 py-4 rounded-2xl font-bold shadow-lg transition-all ${
+                  isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#319795] hover:bg-[#2a8381]'
+                }`}
               >
-                {bookdata ? "تحديث البيانات" : "حفظ فقط"}
+                {isLoading ? "جاري المعالجة..." : (bookdata ? "تحديث البيانات" : "حفظ فقط")}
               </button>
             </div>
           </div>

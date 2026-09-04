@@ -20,7 +20,7 @@ const HomeBook = () => {
 
       <Header />
       <Hero />
-      <PromoBanner />
+      {/* <PromoBanner /> */}
       <StatsBar />
       <CategorySliderResponsive />
       <BooksStore />

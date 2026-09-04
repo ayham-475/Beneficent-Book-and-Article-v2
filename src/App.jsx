@@ -2,31 +2,31 @@ import React, { useState ,useEffect} from 'react'
 
 import './App.css'; // تأكد من المسار الصحيح
 import AuthPage from './features/auth/login.jsx';
-import content_user from './features/Article/ArticlesHub.jsx'
+// import content_user from './features/Article/ArticlesHub.jsx'
 import AuthorDashboard from './pages/User/Dashboard/dashboard.jsx'
 import { Routes, Route } from 'react-router-dom';
 
 import BookCardDeatils from './features/books/BookCardDeatils.jsx'
 import CreativeArticleView from './features/Article/ArticleDeatiles.jsx'
-import { ArticlesContextData } from './App/Public/Contexts/ArticlesContext.jsx';
+// import { ArticlesContextData } from './App/Public/Contexts/ArticlesContext.jsx';
 
 import { AuthProvider } from './features/auth/auther.jsx';
 import ProtectedRoute from './features/auth/ProtectedRoute.jsx';
-import CategoriesPage from './App/Public/HomePages/CosmicHero.jsx'
+// import CategoriesPage from './App/Public/HomePages/CosmicHero.jsx'
 import AdminPendingReviews from './pages/Admin/Dashboard/AdminPendingReviews.jsx'
 import AdminUsers from './pages/Admin/adminUsers.jsx'
 import UsersManager from './pages/Admin/Users/UsersManager.jsx'
-import AddDataContent from './pages/User/Dashboard/AddDataContent.jsx'
+import AddDataContent from './pages/User/Dashboard/AddDataContent.jsx';
 import UploadFiles from './pages/User/Dashboard/UploadFiles.jsx'
-import HomeH from './features/home/home.jsx'
+import LandingMain from './features/home/home.jsx'
 import HomeBook from './features/books/home.jsx'
 
 import ArticlesManager from './pages/User/Content Adminstorition/ArticlesHome/ArticlesManager.jsx';
 
 import CreativeHub from './pages/User/Content Adminstorition/UserContentManager.jsx';
 import ArticleEditor from './pages/User/Content Adminstorition/ArticlesHome/ArticleEditor.jsx';
-import UserLayout from './App/Public/Layout/MainLayoutUser.jsx';
-import AdminLayout from './App/Public/Layout/MainLayoutAdmin.jsx';
+import UserLayout from './App/Public/Layout/MainLayoutUser.jsx'
+import AdminLayout from './App/Public/Layout/MainLayoutAdmin.jsx'
 import BookContentHome from './pages/User/Content Adminstorition/BooksHome/BookContentHome.jsx';
 // import AddBookContent from './pages/User/Content Adminstorition/BooksHome/AddBookContent.jsx';
 import FinancialHome from './pages/User/Financial Management/FinancialHome.jsx';
@@ -36,8 +36,8 @@ import SettingsManager from './pages/Admin/System Settings/SettingsManager.jsx';
 import UserManagement from './pages/Admin/Content Moderation Hub/ContentModeration.jsx';
 import ReaderCategoryView from './features/Categories/ReaderCategoryView.jsx';
 import ArticleCategoryView from './features/Categories/ArticleCard.jsx';
-import MySnakbar from './App/Public/Components/Toast.jsx';
-import { ToastContext } from './App/Public/Contexts/ToastContext.jsx';
+import { ToastProvider } from './App/Public/Contexts/ToastContext.jsx';
+// import { ToastContext } from './App/Public/Contexts/ToastContext.jsx';
 import { ContentDataContext } from './pages/User/Content Adminstorition/ArticlesHome/ArticlesContext.jsx';
 import ProfileEditor from './features/auth/Profile.jsx';
 import Articles from './features/Article/ArticlesHub.jsx';
@@ -56,33 +56,21 @@ function App() {
  GetDatacontent();
    
   }, []);
-const [open, setOpen] = React.useState(false);
-    const [message, setMessage] = React.useState("");
-
- function showHideToast(message){
-  setOpen(true); 
-  setTimeout(()=>{
-    setOpen(false)
-  },2000)
-  setMessage(message)
- }
 
   return (  
     //i am ayham alyaari
     <div>
-      <MySnakbar open={open}  message={message} />
       <AuthProvider>
-        <ToastContext.Provider value={{showHideToast}}>
+        <ToastProvider>
           <ContentDataContext.Provider value={ContentData}>
        
             <Routes>
 
               {/* 1. المسارات العامة ( بدون سلايد بار) */}
-              <Route path="/" element={<HomeH />} />
-              <Route path="s" element={<MySnakbar />} />
+              <Route path="/" element={<LandingMain />} />
               <Route path="/login" element={<AuthPage />} />
               <Route path="/profile/:userId" element={<ProfileEditor />} />
-              <Route path="/category" element={<CategoriesPage />} />
+              {/* <Route path="/category" element={<CategoriesPage />} /> */}
               <Route path="/Categories" element={<ReaderCategoryView />} />
               <Route path="/CategoriesArticle" element={<ArticleCategoryView />} />
 
@@ -120,7 +108,7 @@ const [open, setOpen] = React.useState(false);
               </Route>
             </Routes>
         </ContentDataContext.Provider>
-        </ToastContext.Provider>
+        </ToastProvider>
       </AuthProvider>
     </div>
   );

@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import TrendingArticles from './TrendingArticle';
 import ArticleCategories from './ArticleCategories';
 import EliteAuthors from './EliteAuthors';
+
 import ArticleHero from './ArticleHero';
 import ArticleCTA from './ArticleCTA';// قسم إضافي للدعوة للنشر
-import Header from '../../App/Public/Layout/Hedder';
+import Header from '../../App/Public/Layout/Hedder'
 import Footer from '../../App/Public/Layout/Fotter';
 import { article } from 'framer-motion/client';
 const Articles = () => {
