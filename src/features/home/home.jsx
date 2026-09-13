@@ -1,45 +1,40 @@
-// src/components/LandingPage/LandingMain.jsx
-import React from 'react';
+﻿import React from 'react';
 import { motion } from 'framer-motion';
 
-// استيراد المكونات المجزأة
-// import Navbar from '../Global/Navbar'; // افترضنا وجوده في مجلد عام
-import MainHomeHero from './Hero';
 import ArticleHero from '../Article/ArticleHero';
 import HowItWorks from './HowItWorks';
 import TopPublishers from './TopPublishers';
 import Testimonials from './Testimonials';
 import FinalCTA from './FinalCTA';
-import Header from '../../App/Public/Layout/Hedder'
-
+import Header from '../../App/Public/Layout/Hedder';
+import Footer from './Footer';
 
 const LandingMain = () => {
   return (
-    <div className="relative bg-[#020617] min-h-screen w-full overflow-hidden text-white anti-aliased">
-      
-      {/* شريط التنقل العلوي */}
+    <div className="relative bg-[#020617] min-h-screen w-full overflow-hidden text-white antialiased">
+      {/* شريط التنقل العلوي المتجاوب */}
       <Header />
 
-      {/* المحتوى الرئيسي مرتباً سردياً */}
-      <main>
+      {/* المحتوى الرئيسي */}
+      <main className="pt-20 sm:pt-24">
         {/* 1. قسم الترحيب والبحث */}
-        {/* <MainHomeHero /> */}
         <ArticleHero /> 
+        
         {/* 2. قسم كيف تعمل المنصة */}
         <HowItWorks />
 
-        {/* 3. قسم أفضل الناشرين */}
+        {/* 3. قسم أفضل الناشرين والكُتّاب */}
         <TopPublishers />
 
-        {/* 4. قسم آراء المستخدمين */}
+        {/* 4. آراء القرّاء والمجتمع */}
         <Testimonials />
 
-        {/* 5. قسم الحث النهائي للتسجيل */}
+        {/* 5. دعوة الانضمام والمشاركة */}
         <FinalCTA />
       </main>
 
-      {/* تذييل الصفحة */}
-      {/* <Footer /> */}
+      {/* تذييل الصفحة الفاخر */}
+      <Footer />
     </div>
   );
 };

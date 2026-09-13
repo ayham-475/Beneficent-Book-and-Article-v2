@@ -42,19 +42,23 @@ import { ContentDataContext } from './pages/User/Content Adminstorition/Articles
 import ProfileEditor from './features/auth/Profile.jsx';
 import Articles from './features/Article/ArticlesHub.jsx';
 import UserVerificationDashboard from './pages/Admin/Dashboard/UserVerificationDashboard.jsx';
-function App() {
-  const [ContentData,setContentdata]=useState([])
-  const APT_URL="http://localhost:3000/contents";
-    const GetDatacontent=async()=>{
-      const res = await fetch(APT_URL);
+import { api } from './services/apiClient.js';
 
-      const contentdat = await res.json();
-    
-      setContentdata(contentdat)
-  }
- useEffect(() => {
- GetDatacontent();
-   
+function App() {
+  const [ContentData, setContentdata] = useState([]);
+
+  const GetDatacontent = async () => {
+    try {
+      const data = await api.get('/rest/Content-articles/');
+      setContentdata(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.warn("Could not load contents from API:", err.message);
+      setContentdata([]);
+    }
+  };
+
+  useEffect(() => {
+    GetDatacontent();
   }, []);
 
   return (  
